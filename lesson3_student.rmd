@@ -199,12 +199,29 @@ Notes:
 ### Transforming Data
 Notes:
 
+```{r}
+summary(pf$friend_count)
+summary(log10(pf$friend_count+1))
+summary(sqrt(pf$friend_count))
+
+p1=qplot((x=friend_count),data=pf)
+p2=qplot((x=log10(friend_count+1)),data=pf)
+p3=qplot((x=sqrt(friend_count)),data=pf)
+grid.arrange(p1, p2, p3, ncol=1)
+```
+
 ***
 
 ### Add a Scaling Layer
 Notes:
 
 ```{r Add a Scaling Layer}
+logScale=qplot(x=log10(friend_count),data=pf)
+countScale=ggplot(aes(x=friend_count),data=pf) +
+  geom_histogram()+scale_x_log10()
+grid.arrange(logScale, countScale, ncol=2)
+p2=countScale+scale_x_log10()
+p3=countScale+scale_x_sqrt()
 
 ```
 
@@ -214,7 +231,11 @@ Notes:
 ### Frequency Polygons
 
 ```{r Frequency Polygons}
-
+ggplot(aes(x = friend_count, y = ..count../sum(..count..)), data = subset(pf, !is.na(gender))) + 
+  geom_freqpoly(aes(color = gender)) +
+  scale_x_continuous(limits = c(0, 1000), breaks = seq(0, 1000, 50)) +
+  xlab('Friend Count') +
+  ylab('Percentage of users with that friend count')
 ```
 
 ***
