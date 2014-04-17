@@ -296,7 +296,11 @@ qplot(x=www_likes,y=..count../sum(..count..), data=subset(pf, !is.na(gender)),
 Notes:
 
 ```{r Likes on the Web}
-
+qplot(x=www_likes,y=..count../sum(..count..), data=subset(pf, !is.na(gender)), 
+      binwidth=10,geom='freqpoly',color=gender) +
+  scale_x_continuous() +
+  scale_x_log10()
+by(pf$www_likes,pf$gender,sum)
 ```
 
 
