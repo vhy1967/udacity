@@ -317,7 +317,19 @@ qplot(x=friend_count, data=subset(pf, !is.na(gender)),
 
 qplot(x=gender, y=friend_count, 
       data=subset(pf,!is.na(gender)), 
-      geom="boxplot")
+      geom="boxplot", ylim = c(0, 1000)) # bad, cut data
+
+qplot(x=gender, y=friend_count, 
+      data=subset(pf,!is.na(gender)), 
+      geom="boxplot") +
+  scale_y_continuous(limits = c(0, 1000)) # bad, cut data
+
+qplot(x=gender, y=friend_count, 
+      data=subset(pf,!is.na(gender)), 
+      geom="boxplot") +
+  coord_cartesian(ylim = c(0, 1000)) # good
+
+by(pf$friend_count,pf$gender,summary)
 ```
 
 #### Adjust the code to focus on users who have friend counts between 0 and 1000.
@@ -332,7 +344,12 @@ qplot(x=gender, y=friend_count,
 Notes:
 
 ```{r Box Plots, Quartiles, and Friendships}
+qplot(x=gender, y=friendships_initiated, 
+      data=subset(pf,!is.na(gender)), 
+      geom="boxplot") +
+  coord_cartesian(ylim = c(0, 250)) # good
 
+by(pf$friendships_initiated,pf$gender,summary)
 ```
 
 #### On average, who initiated more friendships in our sample: men or women?
@@ -351,7 +368,16 @@ Response:
 Notes:
 
 ```{r Getting Logical}
+summary(pf$mobile_likes)
 
+summary(pf$mobile_likes > 0)
+
+pf$mobile_check_in <- NA
+pf$mobile_check_in <- ifelse(pf$mobile_likes > 0,1,0)
+pf$mobile_check_in <- factor(pf$mobile_check_in)
+summary(pf$mobile_check_in)
+summary(pf$mobile_check_in)["1"]/(summary(pf$mobile_check_in)["0"]+summary(pf$mobile_check_in)["1"])
+sum(pf$mobile_check_in == 1)/length(pf$mobile_check_in)
 ```
 
 Response:
