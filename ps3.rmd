@@ -9,7 +9,7 @@ When you click the **Knit HTML** button a web page will be generated that includ
 data(diamonds)
 summary(diamonds)
 ```
-
+### Price Box Plots & IQR
 ```{r}
 ggplot(aes(x=price), data=diamonds) +
   geom_histogram(binwidth=50) +
@@ -52,6 +52,22 @@ f3=qplot(x = color, y=price,
   coord_cartesian(ylim = c(300, 19000)) +
   scale_y_log10()
 grid.arrange(f1, f2, f3, ncol=1)
+```
+
+### Price per Carat Box Plots by Color
+```{r}
+qplot(x = color, y=price/carat,
+         data = diamonds, geom="boxplot")
+ggsave('PricePerCaratBoxPlotsByColor.png')
+```
+
+### Carat Frequency Polygon
+```{r}
+qplot(x=carat,
+      data=diamonds, 
+      binwidth=.01, geom='freqpoly') +
+  coord_cartesian(xlim = c(0.2, 1.2))
+ggsave('CaratFrequencyPolygon.png')
 ```
 
 
