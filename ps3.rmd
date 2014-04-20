@@ -15,11 +15,43 @@ ggplot(aes(x=price), data=diamonds) +
   geom_histogram(binwidth=50) +
   scale_x_discrete(breaks = seq(300, 19000, 50), limits = c(300, 19000)) +
   coord_cartesian(xlim = c(1400, 1600))
-
-ggplot(aes(x=price), data=diamonds) +
-  geom_histogram(binwidth=50) +
-  scale_x_discrete(breaks = seq(300, 19000, 50), limits = c(300, 19000)) +
-  coord_cartesian(xlim = c(1400, 1600))
-
 ```
+```{r}
+qplot(x = price, data = diamonds) + facet_wrap(~cut, scales="free_y")
+
+qplot(x = price/carat, data = diamonds) + 
+  facet_wrap(~cut) +
+  scale_x_log10()
+
+min(by(diamonds$price,diamonds$cut,min))
+min(by(diamonds$price,diamonds$clarity,min))
+min(by(diamonds$price,diamonds$color,min))
+
+max(by(diamonds$price,diamonds$cut,max))
+max(by(diamonds$price,diamonds$clarity,max))
+max(by(diamonds$price,diamonds$color,max))
+
+by(diamonds$price,diamonds$cut,summary)
+by(diamonds$price,diamonds$clarity,summary)
+by(diamonds$price,diamonds$color,summary)
+
+by(diamonds$price,diamonds$cut,IQR)
+by(diamonds$price,diamonds$clarity,IQR)
+by(diamonds$price,diamonds$color,IQR)
+
+f1=qplot(x = cut, y=price,
+         data = diamonds, geom="boxplot") +
+  coord_cartesian(ylim = c(300, 19000)) +
+  scale_y_log10()
+f2=qplot(x = clarity, y=price,
+         data = diamonds, geom="boxplot") +
+  coord_cartesian(ylim = c(300, 19000)) +
+  scale_y_log10()
+f3=qplot(x = color, y=price,
+         data = diamonds, geom="boxplot") +
+  coord_cartesian(ylim = c(300, 19000)) +
+  scale_y_log10()
+grid.arrange(f1, f2, f3, ncol=1)
+```
+
 
