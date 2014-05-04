@@ -70,4 +70,18 @@ qplot(x=carat,
 ggsave('CaratFrequencyPolygon.png')
 ```
 
+```{r}
+ageOfMarriage <- read.xlsx("indicator age of marriage.xlsx",1,
+                           startRow=2,endRo=186,header=F,colIndex=c(1,117))
+countryByRegion <- read.xlsx("Country nomenclature - regional list 2013.xls",
+                             1,header=T)
+ageOfMarriageByRegion<-subset(merge(ageOfMarriage,countryByRegion,
+                                     by.x="Country",by.y="COUNTRY"),
+                               select=Country:GEOG..REGION)
+names(ageOfMarriageByRegion)[3]="Region"
+qplot(x=Age, data=na.omit(ageOfMarriageByRegion)) +
+  facet_wrap(~Region)
+qplot(x=Region,y=Age,data=na.omit(ageOfMarriageByRegion),
+      geom="boxplot")
+```
 
